@@ -13,21 +13,25 @@
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-  <script src="data.js?v=20260420-company-65"></script>
-  <script type="text/babel" src="charts.jsx?v=20260420-company-65"></script>
-  <script type="text/babel" src="ui.jsx?v=20260420-company-65"></script>
-  <script type="text/babel" src="page_home.jsx?v=20260420-company-65"></script>
-  <script type="text/babel" src="page_summary.jsx?v=20260420-company-65"></script>
-  <script type="text/babel" src="page_briefing.jsx?v=20260420-company-65"></script>
-  <script type="text/babel" src="page_company.jsx?v=20260420-company-65"></script>
+  <script src="data.js?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="charts.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="ui.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="page_home.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="page_catalogs.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="page_summary.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="page_briefing.jsx?v=20260421-catalog-3"></script>
+  <script type="text/babel" src="page_company.jsx?v=20260421-catalog-3"></script>
 
   <script type="text/babel">
     function parseRoute() {
       const hash = window.location.hash.slice(1) || "/";
       const parts = hash.split("/").filter(Boolean);
       if (!parts.length) return { name: "home" };
+      if (parts[0] === "summaries") return { name: "summaries" };
       if (parts[0] === "summary") return { name: "summary", id: parts[1] || "2026q1" };
+      if (parts[0] === "briefings") return { name: "briefings" };
       if (parts[0] === "briefing") return { name: "briefing", id: parts[1] };
+      if (parts[0] === "companies") return { name: "companies" };
       if (parts[0] === "company") return { name: "company", id: parts[1] };
       return { name: "home" };
     }
@@ -44,9 +48,9 @@
             </a>
             <nav className="nav">
               <a href="#/" className={route.name === "home" ? "active" : ""}>首页</a>
-              <a href={`#/summary/${D.summaries[0].id}`} className={route.name === "summary" ? "active" : ""}>季度总结</a>
-              <a href={`#/briefing/${D.briefings[0].id}`} className={route.name === "briefing" ? "active" : ""}>Briefing</a>
-              <a href="#/company/tencent" className={route.name === "company" ? "active" : ""}>公司主页</a>
+              <a href="#/summaries" className={route.name === "summaries" || route.name === "summary" ? "active" : ""}>季度总结</a>
+              <a href="#/briefings" className={route.name === "briefings" || route.name === "briefing" ? "active" : ""}>财报 Briefing</a>
+              <a href="#/companies" className={route.name === "companies" || route.name === "company" ? "active" : ""}>公司主页</a>
             </nav>
             <div className="topbar-spacer"></div>
             <span className="period-chip">{D.meta.period}</span>
@@ -64,8 +68,11 @@
       }, []);
 
       let page;
-      if (route.name === "summary") page = <SummaryPage id={route.id} />;
+      if (route.name === "summaries") page = <SummaryDirectoryPage />;
+      else if (route.name === "summary") page = <SummaryPage id={route.id} />;
+      else if (route.name === "briefings") page = <BriefingDirectoryPage />;
       else if (route.name === "briefing") page = <BriefingPage id={route.id} />;
+      else if (route.name === "companies") page = <CompanyDirectoryPage />;
       else if (route.name === "company") page = <CompanyPage id={route.id} />;
       else page = <HomePage />;
 

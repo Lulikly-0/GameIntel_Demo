@@ -103,7 +103,7 @@ function HomePage() {
       {/* Briefings */}
       <div className="section-head">
         <h2>最新 Briefing</h2>
-        <span className="aside">company_briefing 模板 · {latestBriefings.length} 条</span>
+        <a className="aside" href="#/briefings" style={{ color: "var(--c1)", fontWeight: 700 }}>查看其他 Briefing →</a>
       </div>
       <div className="grid grid-3">
         {latestBriefings.map((b) => {
